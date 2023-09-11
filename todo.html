@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        #app {
+            max-width: 400px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #007bff;
+        }
+
+        .task {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 8px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            transition: background-color 0.2s;
+        }
+
+        .task:hover {
+            background-color: #e9e9e9;
+        }
+
+        .task input[type="checkbox"] {
+            margin-right: 8px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 8px 16px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <h1>To-Do App</h1>
+        <input type="text" id="titleInput" placeholder="Task Title (required)" required>
+        <input type="text" id="descriptionInput" placeholder="Task Description">
+        <button onclick="addTask()">Add</button>
+        <ul id="taskList"></ul>
+    </div>
+    <script>
+        // Function to add a new task
+        function addTask() {
+            const titleInput = document.getElementById("titleInput");
+            const descriptionInput = document.getElementById("descriptionInput");
+            
+            const titleText = titleInput.value.trim();
+            if (titleText === "") {
+                alert("Please enter a title for the task.");
+                return;
+            }
+            
+            const taskList = document.getElementById("taskList");
+            const taskItem = document.createElement("li");
+            taskItem.classList.add("task");
+            taskItem.innerHTML = `
+                <input type="checkbox">
+                <div>
+                    <h3>${titleText}</h3>
+                    <p>${descriptionInput.value}</p>
+                </div>
+                <button onclick="editTask(this)">Edit</button>
+                <button onclick="removeTask(this)">Remove</button>
+            `;
+            taskList.appendChild(taskItem);
+            
+            // Clear the input fields
+            titleInput.value = "";
+            descriptionInput.value = "";
+        }
+
+        // Function to remove a task
+        function removeTask(button) {
+            const taskItem = button.parentElement;
+            taskItem.remove();
+        }
+
+        // Function to edit a task
+        function editTask(button) {
+            const taskItem = button.parentElement;
+            const titleElement = taskItem.querySelector("h3");
+            const descriptionElement = taskItem.querySelector("p");
+
+            const newTitle = prompt("Edit Title:", titleElement.innerText);
+            const newDescription = prompt("Edit Description:", descriptionElement.innerText);
+
+            if (newTitle !== null) {
+                titleElement.innerText = newTitle;
+            }
+
+            if (newDescription !== null) {
+                descriptionElement.innerText = newDescription;
+            }
+        }
+    </script>
+</body>
+</html>
